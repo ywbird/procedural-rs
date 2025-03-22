@@ -1,0 +1,13 @@
+[package]
+name = "procedural"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+raylib = "5.0.2"
+
+[[bin]]
+name = "snake"
+
+[[bin]]
+name = "fabrik"
