@@ -36,6 +36,7 @@ fn main() {
     let mut linkage: Vec<(Arc<Mutex<Joint>>, f32)> = Vec::new();
 
     let mut debug = false;
+    let mut render = true;
 
     for i in 1..=10 {
         let j1 = Arc::new(Mutex::new(Joint::new(320.0 + 40.0*i as f32, 240.0, 0.0, 20.0)));
@@ -79,17 +80,22 @@ fn main() {
         if rl.is_key_pressed(KeyboardKey::KEY_SPACE) {
             debug = !debug;
         }
+
+        if rl.is_key_pressed(KeyboardKey::KEY_R) {
+            render = !render;
+        }
         
         let mut d = rl.begin_drawing(&thread);
         d.clear_background(Color::WHITE);
 
         d.draw_text("FABRIK", 12, 12, 20, Color::BLACK);
         if debug { d.draw_text("DEBUG: ON", 12, 32, 20, Color::RED); }
+        if render { d.draw_text("RENDER: ON", 12, 52, 20, Color::RED); }
 
         let mut line: Vec<Vector2> = linkage.iter().map(|a| a.0.lock().unwrap().pos).collect();
         line.push(source.lock().unwrap().pos);
         line.insert(0, line[0]);
-        if debug { d.draw_spline_linear(&line, 4.0, Color::RED); }
-        d.draw_spline_basis(&line, 2.0, Color::BLACK);
+        if debug { d.draw_spline_linear(&line, 2.0, Color::RED); }
+        if render { d.draw_spline_basis(&line, 2.0, Color::BLACK); }
     }
 }

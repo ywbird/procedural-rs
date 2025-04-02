@@ -73,6 +73,7 @@ fn main() {
     }
 
     let mut debug = false;
+    let mut render = true;
 
     let head_ref = head.clone();
     while !rl.window_should_close() {
@@ -134,12 +135,16 @@ fn main() {
         if rl.is_key_pressed(KeyboardKey::KEY_SPACE) {
             debug = !debug;
         }
+        if rl.is_key_pressed(KeyboardKey::KEY_R) {
+            render = !render;
+        }
 
         let mut d = rl.begin_drawing(&thread);
 
         d.clear_background(Color::WHITE);
         d.draw_text("SNAKE:  Circle Constrait", 12, 12, 20, Color::BLACK);
         if debug { d.draw_text("DEBUG: ON", 12, 32, 20, Color::RED); }
+        if render { d.draw_text("RENDER: ON", 12, 52, 20, Color::RED); }
 
         let mut line_points_r: Vec<Vector2> = Vec::new();
         let mut line_points_l: Vec<Vector2> = Vec::new();
@@ -211,6 +216,6 @@ fn main() {
         line_points.push(line_points[1].clone());
         line_points.push(line_points[2].clone());
         
-        d.draw_spline_basis(&line_points, 2.0, Color::BLACK);
+        if render { d.draw_spline_basis(&line_points, 2.0, Color::BLACK); }
     }
 }
